@@ -13,9 +13,9 @@ const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 
 let circle = {
-    x: 500,
-    y: 50,
-    radius: 80,
+    x: 120,
+    y: 25,
+    radius: 30,
     color: 'blue'
 };
 
@@ -66,3 +66,30 @@ if (canvas) {
 
     drawCircle();
 }
+// In your main.js file
+async function fetchUserInfo() {
+    // Replace with the actual local IP of your remote PC
+    const remotePcIp = '10.76.190.65';
+    try {
+        const response = await fetch(`http://${remotePcIp}:5000/api/userinfo`);
+        const data = await response.json();
+
+        // Now you can display the data on your page
+        const displayElement = document.createElement('p');
+        if (data.username) {
+            displayElement.textContent = `User on remote PC: ${data.username}`;
+        } else {
+            displayElement.textContent = 'No user logged into the remote PC.';
+        }
+        document.body.appendChild(displayElement);
+
+    } catch (error) {
+        console.error('Could not connect to the remote PC:', error);
+        const errorElement = document.createElement('p');
+        errorElement.textContent = 'Could not connect to the remote PC. Is the server running?';
+        document.body.appendChild(errorElement);
+    }
+}
+
+// Call the function when the page loads
+fetchUserInfo();
