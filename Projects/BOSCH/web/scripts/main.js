@@ -69,12 +69,12 @@ if (canvas) {
 // In your main.js file
 async function fetchUserInfo() {
     // Replace with the actual local IP of your remote PC
-    const remotePcIp = '10.76.190.65';
+    const remotePcIp = '10.76.191.198';
     try {
         const response = await fetch(`http://${remotePcIp}:5000/api/userinfo`);
         const data = await response.json();
 
-        // Now you can display the data on your page
+        // Display the data on page
         const displayElement = document.createElement('p');
         if (data.username) {
             displayElement.textContent = `User on remote PC: ${data.username}`;

@@ -4,7 +4,7 @@ import numpy as np
 
 # Define the paths for the Excel and JSON files
 excel_path = r'C:\CPU2BP\CSR\MMC\CPD_measurement_catalogue (1).xlsx'
-json_path = r'c:\CPU2BP\CSR\MMC\newjson_02.json'
+json_path = r'c:\CPU2BP\CSR\MMC\measurement_catalog.json'
 
 # Define the ground truth dictionary that will be used for new entries
 gt_block = {
@@ -34,10 +34,12 @@ relevant_df = df[df['Relevant for resim [Y/N]'] == 'Y'].copy()
 
 # Get a set of all existing measurement names in the JSON for quick lookup
 existing_measurements = set()
-for folder in json_data[1]['folders']:
-    if 'files' in folder:
-        for file_name in folder['files']:
-            existing_measurements.add(file_name)
+for item in json_data:
+    if 'folders' in item:
+        for folder in item['folders']:
+            if 'files' in folder and isinstance(folder['files'], dict):
+                for file_name in folder['files']:
+                    existing_measurements.add(file_name)
 
 # Create a mapping from the top-level "name" to the corresponding object in the JSON data
 target_map = {item.get('name'): item for item in json_data if 'name' in item}
